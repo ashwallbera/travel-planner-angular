@@ -1,0 +1,15 @@
+<button
+  type="button"
+  class="block"
+  [style.top.%]="topPercent()"
+  [style.height.%]="heightPercent()"
+  [style.left.%]="leftPercent()"
+  [style.width.%]="widthPercent()"
+  (click)="select.emit()"
+>
+  <span class="block__name">{{ activity().name }}</span>
+  <span class="block__time">{{ activity().startTime }}@if (activity().endTime) { – {{ activity().endTime }} }</span>
+  @if (costLabel(); as cost) {
+    <span class="block__budget" title="Has budget entry">💰 {{ cost }}</span>
+  }
+</button>

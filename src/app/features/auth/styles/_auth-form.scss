@@ -1,0 +1,27 @@
+h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.hint {
+  font-size: 0.8rem;
+  color: var(--color-muted-foreground);
+  margin-bottom: 1rem;
+}
+
+.error {
+  color: var(--color-destructive);
+  font-size: 0.85rem;
+}
+
+.footer {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+
+  a {
+    color: var(--color-primary);
+    font-weight: 500;
+  }
+}

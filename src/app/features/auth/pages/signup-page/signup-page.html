@@ -1,0 +1,20 @@
+<h2>Sign up</h2>
+@if (error()) {
+  <p class="error">{{ error() }}</p>
+}
+<form (ngSubmit)="submit()">
+  <div class="field">
+    <label for="name">Display name</label>
+    <input id="name" [(ngModel)]="displayName" name="displayName" required />
+  </div>
+  <div class="field">
+    <label for="email">Email</label>
+    <input id="email" type="email" [(ngModel)]="email" name="email" required />
+  </div>
+  <div class="field">
+    <label for="password">Password</label>
+    <input id="password" type="password" [(ngModel)]="password" name="password" />
+  </div>
+  <button type="submit" class="btn btn--block">Create account</button>
+</form>
+<p class="footer">Have an account? <a routerLink="/auth/login">Log in</a></p>

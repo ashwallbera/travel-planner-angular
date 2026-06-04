@@ -1,0 +1,29 @@
+<div class="trip-shell">
+  @if (ctx.loading()) {
+    <p class="trip-shell__status">Loading trip…</p>
+  } @else if (ctx.trip(); as trip) {
+    <nav class="trip-nav" aria-label="Trip sections">
+      <a [routerLink]="['/trips', trip.id, 'dashboard']" routerLinkActive="active">Dashboard</a>
+      <a [routerLink]="['/trips', trip.id, 'itinerary']" routerLinkActive="active">Itinerary</a>
+      <a [routerLink]="['/trips', trip.id, 'budget']" routerLinkActive="active">Budget</a>
+      <a [routerLink]="['/trips', trip.id, 'polls']" routerLinkActive="active">Polls</a>
+      <a [routerLink]="['/trips', trip.id, 'pocket']" routerLinkActive="active">Pocket</a>
+      <a [routerLink]="['/trips', trip.id, 'diary']" routerLinkActive="active">Diary</a>
+      <a [routerLink]="['/trips', trip.id, 'food']" routerLinkActive="active">Eat</a>
+      <a [routerLink]="['/trips', trip.id, 'members']" routerLinkActive="active">Members</a>
+    </nav>
+    <app-trip-bottom-nav
+      [tripId]="trip.id"
+      [moreOpen]="moreMenuOpen()"
+      (moreOpenChange)="moreMenuOpen.set($event)"
+    />
+  } @else {
+    <div class="trip-shell__status card">
+      <p>Trip not found or you no longer have access.</p>
+      <a routerLink="/trips" class="btn">Back to My Trips</a>
+    </div>
+  }
+  <div class="trip-shell__content">
+    <router-outlet />
+  </div>
+</div>

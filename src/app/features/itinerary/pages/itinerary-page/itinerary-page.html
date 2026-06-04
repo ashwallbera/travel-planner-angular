@@ -1,0 +1,61 @@
+<app-page-header title="Itinerary" subtitle="Shared day schedule for your trip">
+  <button type="button" class="btn" (click)="openAdd()">Add activity</button>
+</app-page-header>
+@if (ctx.trip(); as trip) {
+  <app-day-strip [days]="days()" [selected]="selectedDay()" (selectedChange)="selectedDay.set($event)" />
+  <app-time-grid
+    [activities]="dayActivities()"
+    [currency]="trip.currency"
+    (selectActivity)="viewActivity($event)"
+  />
+}
+@if (showForm()) {
+  <div class="modal card">
+    <h3>{{ editingId() ? 'Edit' : 'Add' }} activity</h3>
+    <div class="field">
+      <label>Name *</label>
+      <input [(ngModel)]="name" name="actName" />
+    </div>
+    <div class="form-row">
+      <div class="field">
+        <label>Start time *</label>
+        <input type="time" [(ngModel)]="startTime" name="startTime" />
+      </div>
+      <div class="field">
+        <label>End time</label>
+        <input type="time" [(ngModel)]="endTime" name="endTime" />
+      </div>
+    </div>
+    <div class="field">
+      <label>Location</label>
+      <input [(ngModel)]="location" name="location" />
+    </div>
+    <div class="field">
+      <label>Notes</label>
+      <textarea [(ngModel)]="notes" name="notes"></textarea>
+    </div>
+    <div class="field">
+      <label>Estimated cost</label>
+      <input type="number" min="0" [(ngModel)]="estimatedCost" name="cost" />
+    </div>
+    <div class="modal__actions">
+      <button type="button" class="btn" (click)="save()">Save</button>
+      <button type="button" class="btn btn--ghost" (click)="showForm.set(false)">Cancel</button>
+    </div>
+  </div>
+}
+@if (selectedActivity(); as a) {
+  <div class="modal card">
+    <h3>{{ a.name }}</h3>
+    <p><strong>Time:</strong> {{ a.startTime }}@if (a.endTime) { – {{ a.endTime }} }</p>
+    @if (a.location) { <p><strong>Location:</strong> {{ a.location }}</p> }
+    @if (a.notes) { <p>{{ a.notes }}</p> }
+    @if (a.estimatedCost) { <p><strong>Est. cost:</strong> {{ a.estimatedCost }}</p> }
+    <p class="meta">Added by {{ a.addedByName }}</p>
+    <div class="modal__actions">
+      <button type="button" class="btn btn--ghost" (click)="openEdit(a)">Edit</button>
+      <button type="button" class="btn btn--danger" (click)="deleteActivity(a.id)">Delete</button>
+      <button type="button" class="btn btn--ghost" (click)="selectedActivity.set(null)">Close</button>
+    </div>
+  </div>
+}

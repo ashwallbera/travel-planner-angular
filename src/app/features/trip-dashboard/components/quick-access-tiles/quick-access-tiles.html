@@ -1,0 +1,8 @@
+<div class="tiles">
+  @for (tile of tiles(); track tile.path) {
+    <a [routerLink]="tile.path" class="tiles__item card">
+      <span class="tiles__icon">{{ tile.icon }}</span>
+      <span>{{ tile.label }}</span>
+    </a>
+  }
+</div>

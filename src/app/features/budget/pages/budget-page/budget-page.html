@@ -1,0 +1,54 @@
+<app-page-header title="Budget" subtitle="Shared trip spending">
+  <button type="button" class="btn" (click)="showForm.set(true)">Add entry</button>
+</app-page-header>
+@if (ctx.trip(); as trip) {
+  <section class="card limit">
+    <label>Trip budget limit</label>
+    <div class="limit__row">
+      <input type="number" min="0" [(ngModel)]="budgetLimitInput" [placeholder]="trip.budgetLimit?.toString() ?? '0'" />
+      <button type="button" class="btn btn--ghost" (click)="budgetLimitInput = trip.budgetLimit ?? 0; saveLimit()">Set limit</button>
+    </div>
+  </section>
+  @if (trip.budgetLimit) {
+    <app-budget-overview [spent]="spent()" [limit]="trip.budgetLimit" [currency]="trip.currency" />
+  }
+  @for (cat of categories; track cat) {
+    <section class="card cat">
+      <h3>{{ labels[cat] }}</h3>
+      <p class="cat__spent">{{ format(categorySpent(cat)) }} logged</p>
+      @for (e of byCategory(cat); track e.id) {
+        <div class="entry">
+          <div>
+            <strong>{{ e.label }}</strong>
+            <span class="entry__meta">{{ e.date }} · {{ e.addedByName }}</span>
+          </div>
+          <span>{{ format(e.amount) }}</span>
+          <button type="button" class="btn btn--ghost" (click)="deleteEntry(e)">×</button>
+        </div>
+      }
+    </section>
+  }
+}
+@if (showForm()) {
+  <div class="modal card">
+    <h3>Add budget entry</h3>
+    <div class="field">
+      <label>Category</label>
+      <select [(ngModel)]="category" name="category">
+        @for (cat of categories; track cat) {
+          <option [value]="cat">{{ labels[cat] }}</option>
+        }
+      </select>
+    </div>
+    <div class="field">
+      <label>Description *</label>
+      <input [(ngModel)]="label" name="label" />
+    </div>
+    <div class="field">
+      <label>Amount *</label>
+      <input type="number" min="0" [(ngModel)]="amount" name="amount" />
+    </div>
+    <button type="button" class="btn" (click)="addEntry()">Save</button>
+    <button type="button" class="btn btn--ghost" (click)="showForm.set(false)">Cancel</button>
+  </div>
+}

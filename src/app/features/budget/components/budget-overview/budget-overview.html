@@ -1,0 +1,9 @@
+<div class="overview">
+  <div class="overview__row">
+    <span>Spent {{ spentLabel() }}</span>
+    <span>of {{ limitLabel() }}</span>
+  </div>
+  <div class="overview__bar" [class]="'overview__bar--' + state()">
+    <div class="overview__fill" [style.width.%]="percent()"></div>
+  </div>
+</div>

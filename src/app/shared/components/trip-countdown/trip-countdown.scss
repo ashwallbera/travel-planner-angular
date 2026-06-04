@@ -1,0 +1,13 @@
+.countdown {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.countdown--ongoing {
+  color: var(--color-success);
+}
+
+.countdown--past {
+  color: var(--color-muted-foreground);
+}

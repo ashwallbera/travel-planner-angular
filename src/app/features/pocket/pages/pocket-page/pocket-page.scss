@@ -1,0 +1,29 @@
+@use '../../../../shared/styles/modal-actions';
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.list__item {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.list__type {
+  font-size: 0.75rem;
+  color: var(--color-muted-foreground);
+}
+
+.preview {
+  max-width: 100%;
+  max-height: 200px;
+  margin: 0.5rem 0;
+}

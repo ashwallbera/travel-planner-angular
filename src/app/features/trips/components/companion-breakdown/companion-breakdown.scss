@@ -1,0 +1,12 @@
+.breakdown {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+@media (min-width: 640px) {
+  .breakdown {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+}

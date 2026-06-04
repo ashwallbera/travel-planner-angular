@@ -1,0 +1,32 @@
+.trip-card {
+  display: block;
+  transition: box-shadow 0.15s;
+
+  &:hover {
+    box-shadow: 0 4px 16px oklch(0 0 0 / 0.08);
+  }
+
+  h3 {
+    margin: 0.75rem 0 0.25rem;
+  }
+}
+
+.trip-card__cover {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  margin: -0.25rem 0 0.5rem;
+}
+
+.trip-card__dest {
+  color: var(--color-muted-foreground);
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.trip-card__dates {
+  font-size: 0.8rem;
+  color: var(--color-muted-foreground);
+  margin: 0.25rem 0;
+}

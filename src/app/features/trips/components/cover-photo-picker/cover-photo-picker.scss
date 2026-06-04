@@ -1,0 +1,36 @@
+.picker__grid {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.picker__thumb {
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  width: 72px;
+  height: 48px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &:hover {
+    border-color: var(--color-primary);
+  }
+}
+
+.picker__preview {
+  margin-top: 0.75rem;
+  max-height: 120px;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+}
+
+.picker__label {
+  font-size: 0.8rem;
+  color: var(--color-muted-foreground);
+}

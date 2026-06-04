@@ -1,0 +1,10 @@
+<div class="trip-header">
+  @if (trip().coverPhotoUrl) {
+    <img class="trip-header__cover" [src]="trip().coverPhotoUrl" alt="" />
+  }
+  <div>
+    <h1>{{ trip().name }}</h1>
+    <p>{{ trip().destination }}</p>
+    <app-trip-countdown [startDate]="trip().startDate" [endDate]="trip().endDate" />
+  </div>
+</div>

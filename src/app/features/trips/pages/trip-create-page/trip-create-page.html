@@ -1,0 +1,46 @@
+<app-page-header title="Create a trip" subtitle="Set up your group adventure" />
+@if (error()) {
+  <p class="error">{{ error() }}</p>
+}
+<form class="card" (ngSubmit)="submit()">
+  <div class="field">
+    <label>Trip name *</label>
+    <input [(ngModel)]="name" name="name" required />
+  </div>
+  <div class="field">
+    <label>Destination *</label>
+    <input [(ngModel)]="destination" name="destination" placeholder="City or country" required />
+  </div>
+  <div class="form-row">
+    <div class="field">
+      <label>Start date *</label>
+      <input type="date" [(ngModel)]="startDate" name="startDate" required />
+    </div>
+    <div class="field">
+      <label>End date *</label>
+      <input type="date" [(ngModel)]="endDate" name="endDate" [min]="startDate" required />
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="field">
+      <label>Total travelers</label>
+      <input type="number" min="1" [(ngModel)]="travelerCount" name="travelerCount" />
+    </div>
+    <div class="field">
+      <label>Currency</label>
+      <select [(ngModel)]="currency" name="currency">
+        <option value="PHP">PHP</option>
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+      </select>
+    </div>
+  </div>
+  <h3>Companion breakdown</h3>
+  <app-companion-breakdown [(companions)]="companions" [travelerCount]="travelerCount" />
+  <app-cover-photo-picker [(coverUrl)]="coverPhotoUrl" />
+  <div class="field">
+    <label>Trip budget limit (optional)</label>
+    <input type="number" min="0" [(ngModel)]="budgetLimit" name="budgetLimit" />
+  </div>
+  <button type="submit" class="btn btn--block">Create trip</button>
+</form>

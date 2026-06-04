@@ -1,0 +1,13 @@
+<app-page-header title="Trip members" subtitle="Invite and manage your group" />
+@if (ctx.tripId(); as tripId) {
+  <app-invite-panel [tripId]="tripId" />
+  <section class="card members">
+    <h3>Members</h3>
+    <app-member-list
+      [members]="memberList()"
+      [currentUserId]="currentUserId()"
+      [organizerId]="organizerId()"
+      (removeMember)="remove($event)"
+    />
+  </section>
+}

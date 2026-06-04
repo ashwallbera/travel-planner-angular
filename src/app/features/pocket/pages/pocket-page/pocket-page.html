@@ -1,0 +1,74 @@
+<app-page-header title="Pocket" subtitle="Bookings and tickets in one place">
+  <button type="button" class="btn" (click)="showForm.set(true)">Add item</button>
+</app-page-header>
+@if (items().length === 0) {
+  <app-empty-state title="No bookings saved" description="Add flights, hotels, and tickets for the group." />
+} @else {
+  <ul class="list">
+    @for (item of items(); track item.id) {
+      <li class="card list__item" (click)="selected.set(item)">
+        <span class="list__type">{{ typeLabels[item.type] }}</span>
+        <strong>{{ item.label }}</strong>
+        <span>{{ item.useDate }} · {{ item.addedByName }}</span>
+        @if (item.amount) {
+          <span>{{ format(item.amount) }}</span>
+        }
+      </li>
+    }
+  </ul>
+}
+@if (showForm()) {
+  <div class="modal card">
+    <h3>Add pocket item</h3>
+    <div class="field">
+      <label>Type</label>
+      <select [(ngModel)]="type" name="type">
+        @for (t of types; track t) {
+          <option [value]="t">{{ typeLabels[t] }}</option>
+        }
+      </select>
+    </div>
+    <div class="field">
+      <label>Label *</label>
+      <input [(ngModel)]="label" name="label" />
+    </div>
+    <div class="field">
+      <label>Date of use *</label>
+      <input type="date" [(ngModel)]="useDate" name="useDate" />
+    </div>
+    <div class="field">
+      <label>Reference</label>
+      <input [(ngModel)]="reference" name="reference" />
+    </div>
+    <div class="field">
+      <label>Amount</label>
+      <input type="number" min="0" [(ngModel)]="amount" name="amount" />
+    </div>
+    <div class="field">
+      <label>Attachment (JPG, PNG, PDF)</label>
+      <input type="file" accept=".jpg,.jpeg,.png,.pdf" (change)="onFile($event)" />
+    </div>
+    <button type="button" class="btn" (click)="save()">Save</button>
+    <button type="button" class="btn btn--ghost" (click)="showForm.set(false)">Cancel</button>
+  </div>
+}
+@if (selected(); as item) {
+  <div class="modal card">
+    <h3>{{ item.label }}</h3>
+    <p>{{ typeLabels[item.type] }} · {{ item.useDate }}</p>
+    @if (item.reference) { <p>Ref: {{ item.reference }}</p> }
+    @if (item.amount) {
+      <p>Amount: {{ format(item.amount) }}</p>
+      <input type="number" [value]="item.amount" (change)="updateAmount(item, +$any($event.target).value)" />
+    }
+    @if (item.attachmentUrl) {
+      @if (item.attachmentName?.endsWith('.pdf')) {
+        <a [href]="item.attachmentUrl" target="_blank">View PDF</a>
+      } @else {
+        <img class="preview" [src]="item.attachmentUrl" alt="" />
+      }
+    }
+    <button type="button" class="btn btn--danger" (click)="deleteItem(item)">Delete</button>
+    <button type="button" class="btn btn--ghost" (click)="selected.set(null)">Close</button>
+  </div>
+}

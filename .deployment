@@ -1,0 +1,2 @@
+[config]
+command = echo "Node.js SSR package from CI — skip Oryx rebuild on server"

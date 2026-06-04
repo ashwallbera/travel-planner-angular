@@ -1,0 +1,52 @@
+<app-page-header title="Polls" subtitle="Vote on group decisions">
+  <button type="button" class="btn" (click)="showForm.set(true)">Create poll</button>
+</app-page-header>
+@if (pollList().length === 0) {
+  <app-empty-state title="No polls yet" description="Create a poll to decide between options." />
+} @else {
+  <div class="poll-grid">
+    @for (p of pollList(); track p.id) {
+      <button type="button" class="card poll-card" (click)="openPoll(p)">
+        <strong>{{ p.title }}</strong>
+        <span class="poll-card__status">{{ p.status }}</span>
+      </button>
+    }
+  </div>
+}
+@if (showForm()) {
+  <div class="modal card">
+    <h3>Create poll</h3>
+    <div class="field">
+      <label>Question *</label>
+      <input [(ngModel)]="title" name="title" />
+    </div>
+    <div class="field"><label>Option 1 *</label><input [(ngModel)]="option1" name="o1" /></div>
+    <div class="field"><label>Option 2 *</label><input [(ngModel)]="option2" name="o2" /></div>
+    <div class="field"><label>Option 3</label><input [(ngModel)]="option3" name="o3" /></div>
+    <div class="field">
+      <label>Deadline</label>
+      <input type="datetime-local" [(ngModel)]="deadline" name="deadline" />
+    </div>
+    <button type="button" class="btn" (click)="create()">Create</button>
+    <button type="button" class="btn btn--ghost" (click)="showForm.set(false)">Cancel</button>
+  </div>
+}
+@if (selected(); as poll) {
+  <div class="modal card">
+    <h3>{{ poll.title }}</h3>
+    <p class="status">{{ poll.status }}@if (poll.deadline) { · ends {{ poll.deadline | date: 'short' }} }</p>
+    @for (opt of poll.options; track opt.id) {
+      <div class="option" [class.option--mine]="myVote() === opt.id" [class.option--leader]="isLeader(poll, opt.id)">
+        <span>{{ opt.label }}</span>
+        <span>{{ voteCount(opt.id) }} votes ({{ resultPercent(poll, opt.id) }}%)</span>
+        @if (poll.status === 'open') {
+          <button type="button" class="btn btn--ghost" (click)="vote(opt.id)">Vote</button>
+        }
+      </div>
+    }
+    @if (poll.status === 'open') {
+      <button type="button" class="btn btn--ghost" (click)="closePoll()">Close poll</button>
+    }
+    <button type="button" class="btn btn--ghost" (click)="selected.set(null)">Back</button>
+  </div>
+}

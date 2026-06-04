@@ -1,0 +1,17 @@
+<div class="picker">
+  <div class="field">
+    <label>Upload cover (optional)</label>
+    <input type="file" accept="image/*" (change)="onFile($event)" />
+  </div>
+  <p class="picker__label">Or choose a preset</p>
+  <div class="picker__grid">
+    @for (url of presets; track url) {
+      <button type="button" class="picker__thumb" (click)="selectPreset(url)">
+        <img [src]="url" alt="" />
+      </button>
+    }
+  </div>
+  @if (coverUrl()) {
+    <img class="picker__preview" [src]="coverUrl()" alt="Cover preview" />
+  }
+</div>

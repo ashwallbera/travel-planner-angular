@@ -1,0 +1,10 @@
+@if (ctx.loading()) {
+  <p>Loading…</p>
+} @else if (ctx.trip(); as trip) {
+  <app-trip-header [trip]="trip" />
+  <section class="members">
+    <app-member-avatar-stack [members]="memberList()" />
+  </section>
+  <h2 class="desktop-only">Quick access</h2>
+  <app-quick-access-tiles class="desktop-only" [tripId]="trip.id" />
+}

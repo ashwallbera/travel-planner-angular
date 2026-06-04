@@ -1,0 +1,9 @@
+<div class="stack">
+  @for (m of members().slice(0, maxVisible()); track m.userId) {
+    <span class="avatar" [title]="m.displayName">{{ initials(m) }}</span>
+  }
+  @if (members().length > maxVisible()) {
+    <span class="avatar avatar--more">+{{ members().length - maxVisible() }}</span>
+  }
+  <span class="count">{{ members().length }} members</span>
+</div>

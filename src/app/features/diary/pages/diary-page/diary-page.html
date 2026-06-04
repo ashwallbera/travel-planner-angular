@@ -1,0 +1,45 @@
+<app-page-header title="Diary" subtitle="Shared photos and notes">
+  <button type="button" class="btn btn--ghost" (click)="showNoteForm.set(true)">Add note</button>
+</app-page-header>
+<div class="field">
+  <label>Upload photo (JPG/PNG, max 10MB)</label>
+  <input type="file" accept=".jpg,.jpeg,.png" (change)="onPhoto($event)" />
+  <input class="caption" placeholder="Optional caption" [(ngModel)]="caption" name="caption" />
+</div>
+@if (entries().length === 0) {
+  <app-empty-state title="Diary is empty" description="Upload photos or add notes from your trip." />
+} @else {
+  <div class="feed">
+    @for (e of entries(); track e.id) {
+      <article class="card feed__item">
+        @if (e.type === 'photo') {
+          <img [src]="e.content" alt="" (click)="lightbox.set(e)" />
+          @if (e.caption) { <p>{{ e.caption }}</p> }
+        } @else {
+          <p>{{ e.content }}</p>
+        }
+        <footer>
+          {{ e.authorName }} · {{ e.dateTag }}
+          @if (canDelete(e)) {
+            <button type="button" class="btn btn--ghost" (click)="deleteEntry(e)">Delete</button>
+          }
+        </footer>
+      </article>
+    }
+  </div>
+}
+@if (showNoteForm()) {
+  <div class="modal card">
+    <h3>Add note</h3>
+    <textarea [(ngModel)]="noteContent" name="note" rows="4"></textarea>
+    <button type="button" class="btn" (click)="addNote()">Save</button>
+    <button type="button" class="btn btn--ghost" (click)="showNoteForm.set(false)">Cancel</button>
+  </div>
+}
+@if (lightbox(); as e) {
+  <div class="lightbox" (click)="lightbox.set(null)">
+    <img [src]="e.content" alt="" (click)="$event.stopPropagation()" />
+    <button type="button" class="btn" (click)="downloadPhoto(e)">Download</button>
+    <button type="button" class="btn btn--ghost" (click)="lightbox.set(null)">Close</button>
+  </div>
+}

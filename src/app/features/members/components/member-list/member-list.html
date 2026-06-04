@@ -1,0 +1,7 @@
+@for (m of members(); track m.userId) {
+  <app-member-row
+    [member]="m"
+    [canRemove]="canRemove(m)"
+    (remove)="removeMember.emit(m.userId)"
+  />
+}

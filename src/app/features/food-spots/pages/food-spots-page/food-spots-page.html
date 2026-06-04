@@ -1,0 +1,56 @@
+<app-page-header title="Where to Eat" subtitle="Group food recommendations">
+  <button type="button" class="btn" (click)="showForm.set(true)">Add spot</button>
+</app-page-header>
+<div class="filters">
+  <button type="button" [class.active]="filterMeal() === 'all'" (click)="filterMeal.set('all')">All</button>
+  @for (m of mealTypes; track m) {
+    <button type="button" [class.active]="filterMeal() === m" (click)="filterMeal.set(m)">{{ mealLabels[m] }}</button>
+  }
+</div>
+@if (filtered().length === 0) {
+  <app-empty-state title="No spots yet" description="Add restaurants and food spots for the group." />
+} @else {
+  <ul class="spots">
+    @for (s of filtered(); track s.id) {
+      <li class="card spot" [class.spot--tried]="tried(s)">
+        <div>
+          <strong [class.strike]="tried(s)">{{ s.name }}</strong>
+          <span class="tag">{{ mealLabels[s.mealType] }}</span>
+          @if (s.area) { <span>{{ s.area }}</span> }
+          @if (s.notes) { <p>{{ s.notes }}</p> }
+        </div>
+        <label>
+          <input type="checkbox" [checked]="tried(s)" (change)="toggleTried(s.id)" />
+          Tried it
+        </label>
+      </li>
+    }
+  </ul>
+}
+@if (showForm()) {
+  <div class="modal card">
+    <h3>Add food spot</h3>
+    <div class="field">
+      <label>Place name *</label>
+      <input [(ngModel)]="name" name="name" />
+    </div>
+    <div class="field">
+      <label>Area</label>
+      <input [(ngModel)]="area" name="area" />
+    </div>
+    <div class="field">
+      <label>Meal type</label>
+      <select [(ngModel)]="mealType" name="mealType">
+        @for (m of mealTypes; track m) {
+          <option [value]="m">{{ mealLabels[m] }}</option>
+        }
+      </select>
+    </div>
+    <div class="field">
+      <label>Notes</label>
+      <textarea [(ngModel)]="notes" name="notes"></textarea>
+    </div>
+    <button type="button" class="btn" (click)="add()">Save</button>
+    <button type="button" class="btn btn--ghost" (click)="showForm.set(false)">Cancel</button>
+  </div>
+}

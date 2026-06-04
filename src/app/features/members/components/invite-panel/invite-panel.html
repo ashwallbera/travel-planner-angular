@@ -1,0 +1,22 @@
+<div class="invite card">
+  <h3>Invite members</h3>
+  <div class="field">
+    <label>Share link (expires in 7 days)</label>
+    <div class="invite__link-row">
+      <input readonly [value]="inviteUrl()" />
+      <button type="button" class="btn" (click)="copyLink()">{{ copied() ? 'Copied!' : 'Copy' }}</button>
+      <button type="button" class="btn btn--ghost" (click)="regenerate()">Regenerate</button>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="field">
+      <label>Email</label>
+      <input [(ngModel)]="inviteEmail" name="inviteEmail" placeholder="friend@example.com" />
+    </div>
+    <div class="field">
+      <label>Phone</label>
+      <input [(ngModel)]="invitePhone" name="invitePhone" />
+    </div>
+  </div>
+  <button type="button" class="btn btn--ghost" (click)="sendInvite()">Send invite (mock)</button>
+</div>

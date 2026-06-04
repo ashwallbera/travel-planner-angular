@@ -1,0 +1,16 @@
+.empty {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: var(--color-muted-foreground);
+}
+
+.empty__title {
+  font-weight: 600;
+  color: var(--color-foreground);
+  margin: 0 0 0.5rem;
+}
+
+.empty__desc {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+}

@@ -1,0 +1,9 @@
+<div class="join card">
+  @if (loading()) {
+    <p>Joining trip…</p>
+  }
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+    <a routerLink="/trips" class="btn">Go to trips</a>
+  }
+</div>

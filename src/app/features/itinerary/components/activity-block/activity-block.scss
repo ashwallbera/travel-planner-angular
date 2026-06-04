@@ -1,0 +1,25 @@
+.block {
+  position: absolute;
+  padding: 0.35rem 0.5rem;
+  background: oklch(0.45 0.14 250 / 0.15);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  text-align: left;
+  overflow: hidden;
+  font-size: 0.75rem;
+  min-height: 2rem;
+}
+
+.block__name {
+  display: block;
+  font-weight: 600;
+}
+
+.block__time {
+  font-size: 0.65rem;
+  color: var(--color-muted-foreground);
+}
+
+.block__budget {
+  font-size: 0.65rem;
+}

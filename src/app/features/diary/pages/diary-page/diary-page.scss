@@ -1,0 +1,39 @@
+@use '../../../../shared/styles/modal-actions';
+
+.caption {
+  margin-top: 0.5rem;
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.feed__item img {
+  max-width: 100%;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+.feed__item footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  color: var(--color-muted-foreground);
+  margin-top: 0.5rem;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: oklch(0 0 0 / 0.85);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  z-index: 100;
+
+  img {
+    max-width: 90%;
+    max-height: 80vh;
+  }
+}

@@ -1,0 +1,34 @@
+.invite__link-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  input {
+    width: 100%;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+@media (min-width: 640px) {
+  .invite__link-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    input {
+      flex: 1;
+      min-width: 200px;
+      width: auto;
+    }
+
+    .btn {
+      width: auto;
+    }
+  }
+}
+
+h3 {
+  margin: 0 0 1rem;
+}

@@ -1,0 +1,14 @@
+<app-page-header title="My Trips">
+  <a routerLink="/trips/new" class="btn">Create trip</a>
+</app-page-header>
+@if (trips().length === 0) {
+  <app-empty-state title="No trips yet" description="Create your first group trip to get started.">
+    <a routerLink="/trips/new" class="btn">Create trip</a>
+  </app-empty-state>
+} @else {
+  <div class="grid">
+    @for (trip of trips(); track trip.id) {
+      <app-trip-card [trip]="trip" />
+    }
+  </div>
+}

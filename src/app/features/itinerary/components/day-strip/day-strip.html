@@ -1,0 +1,12 @@
+<div class="strip">
+  @for (day of days(); track day) {
+    <button
+      type="button"
+      class="strip__day"
+      [class.strip__day--active]="selected() === day"
+      (click)="selected.set(day)"
+    >
+      {{ label(day) }}
+    </button>
+  }
+</div>

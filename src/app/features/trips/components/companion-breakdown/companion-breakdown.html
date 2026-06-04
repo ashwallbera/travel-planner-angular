@@ -1,0 +1,17 @@
+<div class="breakdown">
+  <div class="field">
+    <label>Adults</label>
+    <input type="number" min="1" [ngModel]="companions().adults" (ngModelChange)="patch('adults', $event)" name="adults" />
+  </div>
+  <div class="field">
+    <label>Seniors (60+)</label>
+    <input type="number" min="0" [ngModel]="companions().seniors" (ngModelChange)="patch('seniors', $event)" name="seniors" />
+  </div>
+  <div class="field">
+    <label>Children (12 and below)</label>
+    <input type="number" min="0" [ngModel]="companions().children" (ngModelChange)="patch('children', $event)" name="children" />
+  </div>
+</div>
+@if (validationMessage(); as msg) {
+  <p class="error">{{ msg }}</p>
+}

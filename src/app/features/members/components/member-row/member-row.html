@@ -1,0 +1,13 @@
+<div class="row">
+  <span class="row__avatar">{{ initials() }}</span>
+  <div class="row__info">
+    <strong>{{ member().displayName }}</strong>
+    @if (member().isOrganizer) {
+      <span class="badge">Organizer</span>
+    }
+    <span class="row__date">Joined {{ member().joinedAt | date: 'mediumDate' }}</span>
+  </div>
+  @if (canRemove()) {
+    <button type="button" class="btn btn--ghost btn--danger" (click)="remove.emit()">Remove</button>
+  }
+</div>

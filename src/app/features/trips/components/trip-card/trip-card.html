@@ -1,0 +1,9 @@
+<a [routerLink]="['/trips', trip().id, 'dashboard']" class="trip-card card">
+  @if (trip().coverPhotoUrl) {
+    <img class="trip-card__cover" [src]="trip().coverPhotoUrl" alt="" />
+  }
+  <h3>{{ trip().name }}</h3>
+  <p class="trip-card__dest">{{ trip().destination }}</p>
+  <p class="trip-card__dates">{{ trip().startDate }} – {{ trip().endDate }}</p>
+  <app-trip-countdown [startDate]="trip().startDate" [endDate]="trip().endDate" />
+</a>
