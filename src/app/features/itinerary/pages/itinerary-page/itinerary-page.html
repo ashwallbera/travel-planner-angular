@@ -1,12 +1,19 @@
 <app-page-header title="Itinerary" subtitle="Shared day schedule for your trip">
-  <button type="button" class="btn" (click)="openAdd()">Add activity</button>
+  <button type="button" class="btn" (click)="openAdd()" [disabled]="!hasDates() && !selectedDay()">Add activity</button>
 </app-page-header>
+@if (!hasDates()) {
+  <p class="notice card">Set travel dates on the dashboard to enable the day calendar.</p>
+}
 @if (ctx.trip(); as trip) {
-  <app-day-strip [days]="days()" [selected]="selectedDay()" (selectedChange)="selectedDay.set($event)" />
+  @if (days().length) {
+    <app-day-strip [days]="days()" [selected]="selectedDay()" (selectedChange)="selectedDay.set($event)" />
+  }
   <app-time-grid
     [activities]="dayActivities()"
     [currency]="trip.currency"
     (selectActivity)="viewActivity($event)"
+    (dropAtTime)="onDrop($event)"
+    (dragActivity)="onDragStart($event)"
   />
 }
 @if (showForm()) {
@@ -46,12 +53,13 @@
 }
 @if (selectedActivity(); as a) {
   <div class="modal card">
-    <h3>{{ a.name }}</h3>
+    <h3>{{ a.name }} @if (a.isPadlocked) { 🔒 }</h3>
     <p><strong>Time:</strong> {{ a.startTime }}@if (a.endTime) { – {{ a.endTime }} }</p>
     @if (a.location) { <p><strong>Location:</strong> {{ a.location }}</p> }
     @if (a.notes) { <p>{{ a.notes }}</p> }
     @if (a.estimatedCost) { <p><strong>Est. cost:</strong> {{ a.estimatedCost }}</p> }
     <p class="meta">Added by {{ a.addedByName }}</p>
+    <app-audit-trail-feed [entries]="a.auditLog ?? []" />
     <div class="modal__actions">
       <button type="button" class="btn btn--ghost" (click)="openEdit(a)">Edit</button>
       <button type="button" class="btn btn--danger" (click)="deleteActivity(a.id)">Delete</button>
@@ -59,3 +67,11 @@
     </div>
   </div>
 }
+<app-confirm-dialog
+  [open]="!!padlockPrompt()"
+  title="Move paid activity?"
+  message="This activity is linked to a paid pocket item. Moving it may affect your plans. Continue?"
+  confirmLabel="Move anyway"
+  (confirmed)="confirmPadlockMove()"
+  (cancelled)="cancelPadlockMove()"
+/>

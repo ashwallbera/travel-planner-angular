@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { map, Observable, of, switchMap } from 'rxjs';
 import type { BudgetEntry, BudgetSourceType } from '../../../core/models';
+import { AuditTrailService } from '../../../core/services/audit-trail.service';
 import type {
   BudgetEntryInput,
   BudgetRepository,
@@ -11,6 +12,7 @@ import { delay, InMemoryStore, newId } from '../in-memory-store';
 @Injectable()
 export class MockBudgetRepository implements BudgetRepository {
   private readonly store = inject(InMemoryStore);
+  private readonly audit = inject(AuditTrailService);
 
   list(tripId: string): Observable<BudgetEntry[]> {
     return this.store.data$.pipe(
@@ -19,7 +21,21 @@ export class MockBudgetRepository implements BudgetRepository {
   }
 
   create(input: BudgetEntryInput): Observable<BudgetEntry> {
-    const entry: BudgetEntry = { ...input, id: newId() };
+    const memberIds = this.store
+      .snapshot()
+      .members.filter((m) => m.tripId === input.tripId)
+      .map((m) => m.userId);
+    const entry: BudgetEntry = {
+      ...input,
+      id: newId(),
+      paid: input.paid ?? false,
+      coveredBy: input.coveredBy?.length ? input.coveredBy : memberIds,
+      auditLog: [
+        this.audit.toEntry(
+          this.audit.buildEntry(input.addedBy, input.addedByName, 'Created expense'),
+        ),
+      ],
+    };
     this.store.update((d) => d.budgetEntries.push(entry));
     return of(entry).pipe(switchMap((e) => delay(e)));
   }
@@ -29,7 +45,26 @@ export class MockBudgetRepository implements BudgetRepository {
     this.store.update((d) => {
       const idx = d.budgetEntries.findIndex((e) => e.id === id);
       if (idx >= 0) {
-        d.budgetEntries[idx] = { ...d.budgetEntries[idx], ...patch };
+        const before = d.budgetEntries[idx];
+        const lines = this.audit.diffFields(
+          before as unknown as Record<string, unknown>,
+          patch as Record<string, unknown>,
+          ['label', 'amount', 'category', 'paid', 'payerId'],
+        );
+        const log = lines.length
+          ? [
+              ...(before.auditLog ?? []),
+              this.audit.toEntry(
+                this.audit.buildEntry(
+                  patch.addedBy ?? before.addedBy,
+                  patch.addedByName ?? before.addedByName,
+                  'Updated expense',
+                  lines.join('; '),
+                ),
+              ),
+            ]
+          : before.auditLog;
+        d.budgetEntries[idx] = { ...before, ...patch, auditLog: log };
         updated = d.budgetEntries[idx];
       }
     });
@@ -52,7 +87,11 @@ export class MockBudgetRepository implements BudgetRepository {
         ? `From Itinerary: ${input.label}`
         : input.sourceType === 'pocket'
           ? `From Pocket: ${input.label}`
-          : input.label;
+          : input.sourceType === 'poll'
+            ? input.label.startsWith('From Poll')
+              ? input.label
+              : `From Poll: ${input.label}`
+            : input.label;
     if (existing) {
       return this.update(existing.id, {
         amount: input.amount,

@@ -8,17 +8,17 @@
     <input [(ngModel)]="name" name="name" required />
   </div>
   <div class="field">
-    <label>Destination *</label>
-    <input [(ngModel)]="destination" name="destination" placeholder="City or country" required />
+    <label>Destination <span class="optional">(optional)</span></label>
+    <input [(ngModel)]="destination" name="destination" placeholder="City or country — TBD if empty" />
   </div>
   <div class="form-row">
     <div class="field">
-      <label>Start date *</label>
-      <input type="date" [(ngModel)]="startDate" name="startDate" required />
+      <label>Start date <span class="optional">(optional)</span></label>
+      <input type="date" [(ngModel)]="startDate" name="startDate" />
     </div>
     <div class="field">
-      <label>End date *</label>
-      <input type="date" [(ngModel)]="endDate" name="endDate" [min]="startDate" required />
+      <label>End date <span class="optional">(optional)</span></label>
+      <input type="date" [(ngModel)]="endDate" name="endDate" [min]="startDate" />
     </div>
   </div>
   <div class="form-row">

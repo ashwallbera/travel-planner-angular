@@ -11,3 +11,8 @@
 .countdown--past {
   color: var(--color-muted-foreground);
 }
+
+.countdown--no-dates {
+  color: var(--color-warning);
+  font-style: italic;
+}

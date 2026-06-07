@@ -1,6 +1,6 @@
 import { parseDateOnly } from './date.utils';
 
-export type CountdownState = 'upcoming' | 'ongoing' | 'past';
+export type CountdownState = 'upcoming' | 'ongoing' | 'past' | 'no_dates';
 
 export interface CountdownResult {
   state: CountdownState;
@@ -8,7 +8,15 @@ export interface CountdownResult {
   daysRemaining?: number;
 }
 
-export function getTripCountdown(startDate: string, endDate: string, now = new Date()): CountdownResult {
+export function getTripCountdown(
+  startDate?: string,
+  endDate?: string,
+  now = new Date(),
+): CountdownResult {
+  if (!startDate?.trim() || !endDate?.trim()) {
+    return { state: 'no_dates', label: 'Set travel dates' };
+  }
+
   const start = parseDateOnly(startDate);
   const end = parseDateOnly(endDate);
   end.setHours(23, 59, 59, 999);

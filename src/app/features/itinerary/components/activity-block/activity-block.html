@@ -1,12 +1,18 @@
 <button
   type="button"
   class="block"
+  draggable="true"
+  [class.block--padlocked]="activity().isPadlocked"
   [style.top.%]="topPercent()"
   [style.height.%]="heightPercent()"
   [style.left.%]="leftPercent()"
   [style.width.%]="widthPercent()"
   (click)="select.emit()"
+  (dragstart)="onDragStart($event)"
 >
+  @if (activity().isPadlocked) {
+    <span class="block__lock" aria-hidden="true">🔒</span>
+  }
   <span class="block__name">{{ activity().name }}</span>
   <span class="block__time">{{ activity().startTime }}@if (activity().endTime) { – {{ activity().endTime }} }</span>
   @if (costLabel(); as cost) {

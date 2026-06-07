@@ -33,11 +33,11 @@ export class TripCreatePage {
 
   submit(): void {
     this.error.set('');
-    if (!this.name.trim() || !this.destination.trim() || !this.startDate || !this.endDate) {
-      this.error.set('Name, destination, and travel dates are required.');
+    if (!this.name.trim()) {
+      this.error.set('Trip name is required.');
       return;
     }
-    if (this.endDate < this.startDate) {
+    if (this.startDate && this.endDate && this.endDate < this.startDate) {
       this.error.set('End date cannot be before start date.');
       return;
     }
@@ -48,9 +48,9 @@ export class TripCreatePage {
     this.facade
       .create({
         name: this.name.trim(),
-        destination: this.destination.trim(),
-        startDate: this.startDate,
-        endDate: this.endDate,
+        destination: this.destination.trim() || undefined,
+        startDate: this.startDate || undefined,
+        endDate: this.endDate || undefined,
         coverPhotoUrl: this.coverPhotoUrl,
         currency: this.currency,
         travelerCount: this.travelerCount,

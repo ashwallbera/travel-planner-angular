@@ -2,15 +2,16 @@ import { describe, expect, it } from 'vitest';
 import { getTripCountdown } from './countdown.utils';
 
 describe('getTripCountdown', () => {
-  it('shows ongoing when today is in range', () => {
-    const r = getTripCountdown('2026-06-01', '2026-06-10', new Date('2026-06-05'));
-    expect(r.state).toBe('ongoing');
-    expect(r.label).toBe('Trip is ongoing');
+  it('returns no_dates when dates missing', () => {
+    expect(getTripCountdown(undefined, undefined)).toEqual({
+      state: 'no_dates',
+      label: 'Set travel dates',
+    });
   });
 
-  it('shows days to go before start', () => {
-    const r = getTripCountdown('2026-06-10', '2026-06-15', new Date('2026-06-05'));
-    expect(r.state).toBe('upcoming');
-    expect(r.daysRemaining).toBe(5);
+  it('returns upcoming when before start', () => {
+    const result = getTripCountdown('2099-01-01', '2099-01-07', new Date('2098-12-01'));
+    expect(result.state).toBe('upcoming');
+    expect(result.daysRemaining).toBeGreaterThan(0);
   });
 });

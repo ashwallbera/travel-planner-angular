@@ -1,0 +1,16 @@
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.btn--ghost {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-foreground);
+}
+
+.error {
+  color: var(--color-destructive);
+  font-size: 0.875rem;
+}

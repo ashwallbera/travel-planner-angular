@@ -1,0 +1,34 @@
+<app-page-header title="Ratings" subtitle="How was the trip?" />
+@if (!available()) {
+  <p class="notice card">Ratings unlock after your trip ends.</p>
+} @else {
+  <section class="card">
+    <h3>Rate the trip</h3>
+    <p class="group-avg">Group average: {{ groupAverage() || '—' }} / 5</p>
+    <label class="field">
+      Your rating (1–5)
+      <input type="number" min="1" max="5" [(ngModel)]="tripRating" />
+    </label>
+    <label class="field">
+      Comment (optional)
+      <textarea [(ngModel)]="tripComment" rows="2"></textarea>
+    </label>
+    <button type="button" class="btn" (click)="saveTripRating()">Save trip rating</button>
+  </section>
+  <section class="card">
+    <h3>Rate activities</h3>
+    @for (a of activityList(); track a.id) {
+      <div class="activity-rate">
+        <span>{{ a.name }}</span>
+        <input
+          type="number"
+          min="1"
+          max="5"
+          [ngModel]="activityRatingFor(a.id)"
+          (ngModelChange)="setActivityRating(a.id, +$event)"
+        />
+        <button type="button" class="btn btn--ghost" (click)="saveActivityRating(a.id)">Save</button>
+      </div>
+    }
+  </section>
+}

@@ -1,0 +1,54 @@
+@if (open()) {
+  <div class="sheet-backdrop" (click)="close()" aria-hidden="true"></div>
+  <div class="quick-sheet" role="dialog" aria-label="Quick add">
+    @if (mode() === 'menu') {
+      <h3>Quick Add</h3>
+      <button type="button" class="quick-sheet__option" (click)="mode.set('expense')">
+        Add Expense
+      </button>
+      <button type="button" class="quick-sheet__option" (click)="mode.set('activity')">
+        Add Activity
+      </button>
+    } @else if (mode() === 'expense') {
+      <h3>Add Expense</h3>
+      <label class="field">
+        Label
+        <input [(ngModel)]="expenseLabel" />
+      </label>
+      <label class="field">
+        Amount
+        <input type="number" [(ngModel)]="expenseAmount" min="0" step="0.01" />
+      </label>
+      <label class="field">
+        Category
+        <select [(ngModel)]="expenseCategory">
+          @for (cat of categories; track cat) {
+            <option [value]="cat">{{ categoryLabels[cat] }}</option>
+          }
+        </select>
+      </label>
+      <div class="quick-sheet__actions">
+        <button type="button" class="btn btn--ghost" (click)="mode.set('menu')">Back</button>
+        <button type="button" class="btn" (click)="saveExpense()">Save</button>
+      </div>
+    } @else {
+      <h3>Add Activity</h3>
+      <label class="field">
+        Name
+        <input [(ngModel)]="activityName" />
+      </label>
+      <label class="field">
+        Date
+        <input type="date" [(ngModel)]="activityDate" />
+      </label>
+      <label class="field">
+        Start time
+        <input type="time" [(ngModel)]="activityStartTime" />
+      </label>
+      <div class="quick-sheet__actions">
+        <button type="button" class="btn btn--ghost" (click)="mode.set('menu')">Back</button>
+        <button type="button" class="btn" (click)="saveActivity()">Save</button>
+      </div>
+    }
+  </div>
+}

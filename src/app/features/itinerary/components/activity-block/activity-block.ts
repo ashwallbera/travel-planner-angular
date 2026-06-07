@@ -20,6 +20,7 @@ export class ActivityBlock {
   readonly column = input(0);
   readonly totalColumns = input(1);
   readonly select = output<void>();
+  readonly dragStart = output<string>();
 
   topPercent(): number {
     const start = timeToMinutes(this.activity().startTime) - GRID_START_HOUR * 60;
@@ -47,5 +48,12 @@ export class ActivityBlock {
   costLabel(): string | null {
     const c = this.activity().estimatedCost;
     return c != null ? formatMoney(c, this.currency()) : null;
+  }
+
+  onDragStart(event: DragEvent): void {
+    event.stopPropagation();
+    const id = this.activity().id;
+    event.dataTransfer?.setData('text/plain', id);
+    this.dragStart.emit(id);
   }
 }

@@ -1,0 +1,52 @@
+.onboarding-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 45%);
+  z-index: 180;
+}
+
+.onboarding {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 181;
+  width: min(24rem, calc(100vw - 2rem));
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+
+  h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1.125rem;
+  }
+
+  section {
+    margin: 1rem 0;
+
+    h3 {
+      margin: 0 0 0.35rem;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--color-muted-foreground);
+    }
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 1.25rem;
+    font-size: 0.9375rem;
+  }
+
+  .muted {
+    color: var(--color-muted-foreground);
+    font-size: 0.875rem;
+  }
+
+  .link {
+    display: inline-block;
+    margin: 0.5rem 0 1rem;
+    color: var(--color-primary);
+    font-size: 0.875rem;
+  }
+}

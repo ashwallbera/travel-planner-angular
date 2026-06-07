@@ -1,0 +1,38 @@
+.audit-trail {
+  h4 {
+    margin: 0 0 0.75rem;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-muted-foreground);
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.875rem;
+  }
+
+  time {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--color-muted-foreground);
+    margin-top: 0.25rem;
+  }
+
+  &__details {
+    color: var(--color-muted-foreground);
+  }
+
+  &__empty {
+    font-size: 0.875rem;
+    color: var(--color-muted-foreground);
+    margin: 0;
+  }
+}

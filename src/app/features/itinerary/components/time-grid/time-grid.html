@@ -4,7 +4,11 @@
       <div class="grid__hour">{{ h }}:00</div>
     }
   </div>
-  <div class="grid__canvas">
+  <div
+    class="grid__canvas"
+    (dragover)="onDragOver($event)"
+    (drop)="onDrop($event)"
+  >
     @for (item of layoutForDay(); track item.activity.id) {
       <app-activity-block
         [activity]="item.activity"
@@ -12,6 +16,7 @@
         [column]="item.column"
         [totalColumns]="item.totalColumns"
         (select)="selectActivity.emit(item.activity)"
+        (dragStart)="dragActivity.emit($event)"
       />
     }
   </div>

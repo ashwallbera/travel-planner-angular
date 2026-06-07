@@ -104,6 +104,34 @@ export const routes: Routes = [
                 (m) => m.FoodSpotsPage,
               ),
           },
+          {
+            path: 'changelog',
+            loadComponent: () =>
+              import('./features/changelog/pages/changelog-page/changelog-page').then(
+                (m) => m.ChangelogPage,
+              ),
+          },
+          {
+            path: 'packing',
+            loadComponent: () =>
+              import('./features/packing-list/pages/packing-list-page/packing-list-page').then(
+                (m) => m.PackingListPage,
+              ),
+          },
+          {
+            path: 'summary',
+            loadComponent: () =>
+              import('./features/post-trip/pages/post-trip-summary-page/post-trip-summary-page').then(
+                (m) => m.PostTripSummaryPage,
+              ),
+          },
+          {
+            path: 'ratings',
+            loadComponent: () =>
+              import('./features/post-trip/pages/post-trip-ratings-page/post-trip-ratings-page').then(
+                (m) => m.PostTripRatingsPage,
+              ),
+          },
         ],
       },
     ],

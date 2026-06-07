@@ -1,0 +1,20 @@
+@if (open()) {
+  <div class="confirm-backdrop" (click)="cancelled.emit()" aria-hidden="true"></div>
+  <div class="confirm-dialog card" role="alertdialog" [attr.aria-label]="title()">
+    <h3>{{ title() }}</h3>
+    <p>{{ message() }}</p>
+    <div class="confirm-dialog__actions">
+      <button type="button" class="btn btn--ghost" (click)="cancelled.emit()">
+        {{ cancelLabel() }}
+      </button>
+      <button
+        type="button"
+        class="btn"
+        [class.btn--destructive]="destructive()"
+        (click)="confirmed.emit()"
+      >
+        {{ confirmLabel() }}
+      </button>
+    </div>
+  </div>
+}

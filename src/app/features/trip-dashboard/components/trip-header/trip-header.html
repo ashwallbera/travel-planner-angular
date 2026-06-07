@@ -3,8 +3,24 @@
     <img class="trip-header__cover" [src]="trip().coverPhotoUrl" alt="" />
   }
   <div>
-    <h1>{{ trip().name }}</h1>
-    <p>{{ trip().destination }}</p>
-    <app-trip-countdown [startDate]="trip().startDate" [endDate]="trip().endDate" />
+    <div class="trip-header__row">
+      <h1>{{ trip().name }}</h1>
+      @if (!editing()) {
+        <button type="button" class="btn btn--ghost btn--sm" (click)="editing.set(true)">Edit</button>
+      }
+    </div>
+    @if (!editing()) {
+      <p>{{ destination() }}</p>
+      <p class="trip-header__dates">{{ dateRange() }}</p>
+      <app-trip-countdown [startDate]="trip().startDate" [endDate]="trip().endDate" />
+    } @else {
+      <div class="card trip-header__edit">
+        <app-trip-edit-form
+          [trip]="trip()"
+          (saved)="editing.set(false)"
+          (cancelled)="editing.set(false)"
+        />
+      </div>
+    }
   </div>
 </div>

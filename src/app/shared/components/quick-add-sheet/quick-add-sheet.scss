@@ -1,0 +1,47 @@
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 35%);
+  z-index: 150;
+}
+
+.quick-sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 151;
+  padding: 1.25rem 1rem calc(var(--bottom-nav-height) + 1rem);
+  background: var(--color-background);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  box-shadow: 0 -4px 20px rgb(0 0 0 / 12%);
+
+  h3 {
+    margin: 0 0 1rem;
+  }
+
+  &__option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.875rem 1rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-muted);
+    font: inherit;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    margin-top: 1rem;
+  }
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--color-foreground);
+  border: 1px solid var(--color-border);
+}

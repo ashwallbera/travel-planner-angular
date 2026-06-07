@@ -1,0 +1,45 @@
+.notice {
+  color: var(--color-muted-foreground);
+}
+
+.summary-card {
+  h2 {
+    margin: 0 0 0.25rem;
+  }
+
+  p {
+    margin: 0 0 1rem;
+    color: var(--color-muted-foreground);
+  }
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+
+  div {
+    padding: 0.75rem;
+    background: var(--color-muted);
+    border-radius: var(--radius-md);
+
+    span {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--color-muted-foreground);
+    }
+
+    strong {
+      font-size: 1.125rem;
+    }
+  }
+}
+
+.btn--ghost {
+  display: inline-flex;
+  margin-top: 0.75rem;
+  margin-left: 0.5rem;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-foreground);
+}

@@ -8,8 +8,8 @@ import { getTripCountdown } from '../../../core/utils/countdown.utils';
   styleUrl: './trip-countdown.scss',
 })
 export class TripCountdown {
-  readonly startDate = input.required<string>();
-  readonly endDate = input.required<string>();
+  readonly startDate = input<string>();
+  readonly endDate = input<string>();
 
   label(): string {
     return getTripCountdown(this.startDate(), this.endDate()).label;

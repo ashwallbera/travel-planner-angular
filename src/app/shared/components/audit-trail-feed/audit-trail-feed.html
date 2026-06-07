@@ -1,0 +1,18 @@
+<section class="audit-trail">
+  <h4>{{ title() }}</h4>
+  @if (!entries().length) {
+    <p class="audit-trail__empty">No history yet.</p>
+  } @else {
+    <ul>
+      @for (e of entries(); track e.id) {
+        <li>
+          <strong>{{ e.userName }}</strong> — {{ e.action }}
+          @if (e.details) {
+            <span class="audit-trail__details">({{ e.details }})</span>
+          }
+          <time>{{ e.timestamp | date: 'short' }}</time>
+        </li>
+      }
+    </ul>
+  }
+</section>

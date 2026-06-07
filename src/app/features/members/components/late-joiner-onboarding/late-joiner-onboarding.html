@@ -1,0 +1,23 @@
+<div class="onboarding-backdrop" aria-hidden="true"></div>
+<div class="onboarding card" role="dialog" aria-label="Welcome to the trip">
+  <h2>Welcome — here's what you missed</h2>
+  <p><strong>{{ trip().name }}</strong> · {{ destination() }} · {{ dates() }}</p>
+  <section>
+    <h3>Decisions already made</h3>
+    @if (snapshot().lockedPolls.length === 0) {
+      <p class="muted">No locked polls yet.</p>
+    } @else {
+      <ul>
+        @for (p of snapshot().lockedPolls; track p.id) {
+          <li>{{ p.title }}</li>
+        }
+      </ul>
+    }
+  </section>
+  <section>
+    <h3>Budget so far</h3>
+    <p>{{ spent() }} logged across the group.</p>
+  </section>
+  <a [routerLink]="['/trips', trip().id, 'changelog']" class="link">View full changelog →</a>
+  <button type="button" class="btn btn--block" (click)="dismissed.emit()">Got it</button>
+</div>

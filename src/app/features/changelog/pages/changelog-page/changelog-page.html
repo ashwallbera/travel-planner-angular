@@ -1,0 +1,15 @@
+<app-page-header title="Changelog" subtitle="Everything that happened on this trip" />
+@if (entries().length === 0) {
+  <app-empty-state title="No events yet" description="Trip activity will appear here." />
+} @else {
+  <ul class="changelog-feed">
+    @for (e of entries(); track e.id) {
+      <li class="changelog-feed__item card">
+        <p class="changelog-feed__summary">{{ e.summary }}</p>
+        <p class="changelog-feed__meta">
+          {{ e.actorName }} · {{ e.createdAt | date: 'medium' }}
+        </p>
+      </li>
+    }
+  </ul>
+}

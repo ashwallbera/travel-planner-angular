@@ -1,3 +1,8 @@
-<span class="countdown" [class.countdown--ongoing]="state() === 'ongoing'" [class.countdown--past]="state() === 'past'">
+<span
+  class="countdown"
+  [class.countdown--ongoing]="state() === 'ongoing'"
+  [class.countdown--past]="state() === 'past'"
+  [class.countdown--no-dates]="state() === 'no_dates'"
+>
   {{ label() }}
 </span>

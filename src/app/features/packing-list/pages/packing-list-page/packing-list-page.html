@@ -1,0 +1,43 @@
+<app-page-header title="Packing list" subtitle="Who's bringing what">
+  <button type="button" class="btn" (click)="showForm.set(true)">Add item</button>
+</app-page-header>
+<div class="filters">
+  <button type="button" class="btn btn--ghost" [class.active]="filter() === 'all'" (click)="filter.set('all')">All</button>
+  <button type="button" class="btn btn--ghost" [class.active]="filter() === 'claimed'" (click)="filter.set('claimed')">Claimed</button>
+  <button type="button" class="btn btn--ghost" [class.active]="filter() === 'unclaimed'" (click)="filter.set('unclaimed')">Unclaimed</button>
+</div>
+@if (filtered().length === 0) {
+  <app-empty-state title="Nothing to pack yet" description="Add items for the group to claim." />
+} @else {
+  <ul class="packing-list">
+    @for (item of filtered(); track item.id) {
+      <li class="card packing-row">
+        <div>
+          <strong>{{ item.name }}</strong>
+          @if (item.claimedByName) {
+            <span class="packing-row__claim">Claimed by {{ item.claimedByName }}</span>
+          } @else {
+            <span class="packing-row__claim packing-row__claim--open">Unclaimed</span>
+          }
+        </div>
+        <div class="packing-row__actions">
+          <button type="button" class="btn btn--ghost" (click)="toggleClaim(item)">
+            {{ item.claimedBy ? 'Toggle' : 'Claim' }}
+          </button>
+          <button type="button" class="btn btn--ghost" (click)="deleteItem(item)">×</button>
+        </div>
+      </li>
+    }
+  </ul>
+}
+@if (showForm()) {
+  <div class="modal card">
+    <h3>Add packing item</h3>
+    <label class="field">
+      Item name
+      <input [(ngModel)]="itemName" />
+    </label>
+    <button type="button" class="btn" (click)="addItem()">Save</button>
+    <button type="button" class="btn btn--ghost" (click)="showForm.set(false)">Cancel</button>
+  </div>
+}

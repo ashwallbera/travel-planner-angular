@@ -21,8 +21,11 @@ export class TripBottomNav {
 
   readonly moreLinks = [
     { label: 'Pocket', path: 'pocket', icon: '🎫' },
+    { label: 'Packing', path: 'packing', icon: '🎒' },
     { label: 'Diary', path: 'diary', icon: '📔' },
     { label: 'Eat', path: 'food', icon: '🍽️' },
+    { label: 'Changelog', path: 'changelog', icon: '📜' },
+    { label: 'Summary', path: 'summary', icon: '✨' },
     { label: 'Members', path: 'members', icon: '👥' },
   ] as const;
 

@@ -1,0 +1,17 @@
+<app-page-header title="Trip summary" subtitle="Your group adventure by the numbers" />
+@if (!available()) {
+  <p class="notice card">Summary unlocks after your trip ends.</p>
+} @else if (ctx.trip(); as trip) {
+  <div class="summary-card card" id="shareable-summary">
+    <h2>{{ trip.name }}</h2>
+    <p>{{ trip.destination || 'TBD' }}</p>
+    <div class="stats">
+      <div><span>Total spent</span><strong>{{ format(stats().spent) }}</strong></div>
+      <div><span>Activities</span><strong>{{ stats().activities }}</strong></div>
+      <div><span>Polls decided</span><strong>{{ stats().polls }}</strong></div>
+      <div><span>Diary moments</span><strong>{{ stats().diary }}</strong></div>
+    </div>
+  </div>
+  <button type="button" class="btn" (click)="shareSummary()">Share summary</button>
+  <a [routerLink]="['/trips', trip.id, 'ratings']" class="btn btn--ghost">Rate this trip</a>
+}

@@ -22,9 +22,11 @@ export class QuickAccessTiles {
     return [
       { label: 'Itinerary', path: `/trips/${id}/itinerary`, icon: '📅' },
       { label: 'Budget', path: `/trips/${id}/budget`, icon: '💰' },
+      { label: 'Packing', path: `/trips/${id}/packing`, icon: '🎒' },
       { label: 'Diary', path: `/trips/${id}/diary`, icon: '📔' },
       { label: 'Pocket', path: `/trips/${id}/pocket`, icon: '🎫' },
       { label: 'Polls', path: `/trips/${id}/polls`, icon: '🗳️' },
+      { label: 'Changelog', path: `/trips/${id}/changelog`, icon: '📜' },
       { label: 'Where to Eat', path: `/trips/${id}/food`, icon: '🍽️' },
     ];
   }

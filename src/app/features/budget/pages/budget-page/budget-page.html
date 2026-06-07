@@ -1,6 +1,10 @@
 <app-page-header title="Budget" subtitle="Shared trip spending">
-  <button type="button" class="btn" (click)="showForm.set(true)">Add entry</button>
+  <button type="button" class="btn" (click)="openAdd()">Add entry</button>
 </app-page-header>
+<div class="tabs">
+  <button type="button" class="btn btn--ghost" [class.active]="tab() === 'entries'" (click)="tab.set('entries')">Entries</button>
+  <button type="button" class="btn btn--ghost" [class.active]="tab() === 'settlement'" (click)="tab.set('settlement')">Settlement</button>
+</div>
 @if (ctx.trip(); as trip) {
   <section class="card limit">
     <label>Trip budget limit</label>
@@ -12,22 +16,59 @@
   @if (trip.budgetLimit) {
     <app-budget-overview [spent]="spent()" [limit]="trip.budgetLimit" [currency]="trip.currency" />
   }
+}
+@if (tab() === 'entries') {
+  <div class="filters">
+    <button type="button" class="btn btn--ghost" [class.active]="paidFilter() === 'all'" (click)="paidFilter.set('all')">All</button>
+    <button type="button" class="btn btn--ghost" [class.active]="paidFilter() === 'paid'" (click)="paidFilter.set('paid')">Paid</button>
+    <button type="button" class="btn btn--ghost" [class.active]="paidFilter() === 'unpaid'" (click)="paidFilter.set('unpaid')">Unpaid</button>
+  </div>
   @for (cat of categories; track cat) {
     <section class="card cat">
       <h3>{{ labels[cat] }}</h3>
       <p class="cat__spent">{{ format(categorySpent(cat)) }} logged</p>
       @for (e of byCategory(cat); track e.id) {
-        <div class="entry">
+        <div class="entry" [class.entry--paid]="e.paid">
           <div>
             <strong>{{ e.label }}</strong>
-            <span class="entry__meta">{{ e.date }} · {{ e.addedByName }}</span>
+            <span class="entry__meta">
+              {{ e.date }} · {{ e.addedByName }}
+              · {{ format(sharePerPerson(e)) }}/person
+            </span>
+            @if (e.payerId) {
+              <span class="entry__meta">Paid by {{ memberName(e.payerId) }}</span>
+            }
           </div>
           <span>{{ format(e.amount) }}</span>
-          <button type="button" class="btn btn--ghost" (click)="deleteEntry(e)">×</button>
+          <button type="button" class="btn btn--ghost btn--sm" (click)="detailEntry.set(e)">Details</button>
+          <button type="button" class="btn btn--ghost btn--sm" (click)="togglePaid(e)">
+            {{ e.paid ? 'Unpaid' : 'Paid' }}
+          </button>
+          <button type="button" class="btn btn--ghost" (click)="requestDelete(e)">×</button>
         </div>
       }
     </section>
   }
+} @else {
+  <section class="card settlement">
+    <h3>Net positions</h3>
+    @for (s of settlements().shares; track s.userId) {
+      <div class="settlement-row">
+        <span>{{ memberName(s.userId) }}</span>
+        <span [class.positive]="s.net > 0" [class.negative]="s.net < 0">
+          {{ format(Math.abs(s.net)) }} {{ s.net >= 0 ? 'ahead' : 'owes' }}
+        </span>
+      </div>
+    }
+    <h3>Suggested transfers</h3>
+    @if (settlements().transfers.length === 0) {
+      <p class="muted">All settled up!</p>
+    } @else {
+      @for (t of settlements().transfers; track t.fromUserId + t.toUserId) {
+        <p>{{ memberName(t.fromUserId) }} pays {{ memberName(t.toUserId) }} {{ format(t.amount) }}</p>
+      }
+    }
+  </section>
 }
 @if (showForm()) {
   <div class="modal card">
@@ -48,7 +89,56 @@
       <label>Amount *</label>
       <input type="number" min="0" [(ngModel)]="amount" name="amount" />
     </div>
+    <fieldset class="covers">
+      <legend>Who it covers</legend>
+      @for (m of memberList(); track m.userId) {
+        <label>
+          <input
+            type="checkbox"
+            [checked]="coveredBy.includes(m.userId)"
+            (change)="toggleCover(m.userId)"
+          />
+          {{ m.displayName }}
+        </label>
+      }
+    </fieldset>
+    <div class="field">
+      <label>Payer</label>
+      <select [(ngModel)]="payerId" name="payer">
+        @for (m of memberList(); track m.userId) {
+          <option [value]="m.userId">{{ m.displayName }}</option>
+        }
+      </select>
+    </div>
+    <div class="field">
+      <label>Receipt (optional — marks paid)</label>
+      <input type="file" accept="image/*" (change)="onReceiptFile($event)" />
+    </div>
     <button type="button" class="btn" (click)="addEntry()">Save</button>
     <button type="button" class="btn btn--ghost" (click)="showForm.set(false)">Cancel</button>
   </div>
 }
+@if (detailEntry(); as entry) {
+  <div class="modal card">
+    <h3>{{ entry.label }}</h3>
+    <p>{{ format(entry.amount) }} · {{ format(sharePerPerson(entry)) }} per person</p>
+    <label class="field">
+      Receipt
+      <input type="file" accept="image/*" (change)="onReceiptFile($event, entry)" />
+    </label>
+    @if (entry.receiptUrl) {
+      <img class="receipt-preview" [src]="entry.receiptUrl" alt="Receipt" />
+    }
+    <app-audit-trail-feed [entries]="entry.auditLog ?? []" title="Expense history" />
+    <button type="button" class="btn btn--ghost" (click)="detailEntry.set(null)">Close</button>
+  </div>
+}
+<app-confirm-dialog
+  [open]="!!confirmDelete()"
+  title="Delete expense?"
+  [message]="deleteMessage()"
+  confirmLabel="Delete"
+  [destructive]="true"
+  (confirmed)="confirmDeleteEntry()"
+  (cancelled)="confirmDelete.set(null)"
+/>

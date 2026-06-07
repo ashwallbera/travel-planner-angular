@@ -7,6 +7,7 @@ import {
   timeToMinutes,
   type TimeRange,
   GRID_START_HOUR,
+  minutesToTime,
 } from '../../../../core/utils/time.utils';
 import { ActivityBlock } from '../activity-block/activity-block';
 
@@ -21,6 +22,8 @@ export class TimeGrid {
   readonly activities = input.required<Activity[]>();
   readonly currency = input<CurrencyCode>('PHP');
   readonly selectActivity = output<Activity>();
+  readonly dropAtTime = output<string>();
+  readonly dragActivity = output<string>();
 
   readonly hours = Array.from({ length: 24 - GRID_START_HOUR }, (_, i) => GRID_START_HOUR + i);
 
@@ -38,5 +41,21 @@ export class TimeGrid {
       column: cols.get(a.id) ?? 0,
       totalColumns: total,
     }));
+  }
+
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+  }
+
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    const canvas = event.currentTarget as HTMLElement;
+    const rect = canvas.getBoundingClientRect();
+    const y = event.clientY - rect.top;
+    const ratio = y / rect.height;
+    const totalMinutes = (24 - GRID_START_HOUR) * 60;
+    const minutes = Math.round(ratio * totalMinutes) + GRID_START_HOUR * 60;
+    const snapped = Math.round(minutes / 15) * 15;
+    this.dropAtTime.emit(minutesToTime(snapped));
   }
 }

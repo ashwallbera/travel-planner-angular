@@ -1,0 +1,28 @@
+@if (error()) {
+  <p class="error">{{ error() }}</p>
+}
+<form (ngSubmit)="save()">
+  <div class="field">
+    <label>Trip name *</label>
+    <input [(ngModel)]="name" name="editName" required />
+  </div>
+  <div class="field">
+    <label>Destination</label>
+    <input [(ngModel)]="destination" name="editDest" placeholder="TBD if empty" />
+  </div>
+  <div class="form-row">
+    <div class="field">
+      <label>Start date</label>
+      <input type="date" [(ngModel)]="startDate" name="editStart" />
+    </div>
+    <div class="field">
+      <label>End date</label>
+      <input type="date" [(ngModel)]="endDate" name="editEnd" [min]="startDate" />
+    </div>
+  </div>
+  <app-cover-photo-picker [(coverUrl)]="coverPhotoUrl" />
+  <div class="actions">
+    <button type="submit" class="btn">Save changes</button>
+    <button type="button" class="btn btn--ghost" (click)="cancelled.emit()">Cancel</button>
+  </div>
+</form>

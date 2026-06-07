@@ -1,6 +1,8 @@
 # Travel Planner (Angular MVP)
 
-Group travel planner MVP: trips, members, itinerary, budget, polls, pocket, diary, and where-to-eat list.
+Group travel planner MVP: trips, members, itinerary, budget, polls, pocket, diary, packing, changelog, and post-trip summary.
+
+**Full codebase guide:** [docs/CODEBASE.md](docs/CODEBASE.md) — architecture, folder structure, features, data layer, and conventions.
 
 ## Production build
 
